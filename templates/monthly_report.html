@@ -1,0 +1,60 @@
+<!-- templates/monthly_report.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}月報{% endblock %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-4">今月の月報</h1>
+    <div class="flex space-x-4 mb-4">
+        <a href="{{ url_for('index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">トップページへ戻る</a>
+    </div>
+    
+    <!-- --- 報告書表示部分 --- -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+        <h2 class="text-2xl font-bold mb-4">月報サマリー (コピペ用)</h2>
+        <textarea id="monthlyReportText" class="w-full h-80 p-2 border rounded resize-none mb-4" readonly>{{ monthly_report_text }}</textarea>
+        <button onclick="copyToClipboard('monthlyReportText')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">コピーする</button>
+    </div>
+
+    {% if sorted_tasks %}
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-2xl font-bold mb-4">タスク集計ランキング</h2>
+            <ul>
+                {% for task, count in sorted_tasks %}
+                    <li class="mb-2">{{ task }}：<span class="font-bold">{{ count }}回</span></li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if reports %}
+        <h2 class="text-2xl font-bold mb-4">今月の日報一覧</h2>
+        {% for report in reports %}
+        <div class="bg-white p-4 rounded-lg shadow-md mb-4">
+            <h3 class="text-xl font-semibold">{{ report.date }}</h3>
+            <h4 class="font-bold mt-2">今日の作業内容</h4>
+            <p class="whitespace-pre-line">{{ report.tasks }}</p>
+            <h4 class="font-bold mt-2">進捗状況</h4>
+            <p class="whitespace-pre-line">{{ report.progress }}</p>
+            <h4 class="font-bold mt-2">課題・対応中</h4>
+            <p class="whitespace-pre-line">{{ report.challenges }}</p>
+            <h4 class="font-bold mt-2">明日以降の予定</h4>
+            <p class="whitespace-pre-line">{{ report.next_plan }}</p>
+            <h4 class="font-bold mt-2">所感・メモ</h4>
+            <p class="whitespace-pre-line">{{ report.memo }}</p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p class="bg-white p-4 rounded-lg shadow-md">今月の日報はまだありません。</p>
+    {% endif %}
+
+    <script>
+        function copyToClipboard(elementId) {
+            var copyText = document.getElementById(elementId);
+            copyText.select();
+            document.execCommand("copy");
+            alert("月報をクリップボードにコピーしました！");
+        }
+    </script>
+{% endblock %}

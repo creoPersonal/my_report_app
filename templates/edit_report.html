@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}日報編集フォーム{% endblock %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-4">日報編集フォーム</h1>
+    <form action="{{ url_for('edit_report', report_id=report.id) }}" method="POST" class="bg-white p-6 rounded-lg shadow-md">
+        <div class="mb-4">
+            <label for="date" class="block text-gray-700 font-bold mb-2">日付:</label>
+            <input type="date" id="date" name="date" value="{{ report.date }}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+
+        <div class="mb-4">
+            <label for="tasks" class="block text-gray-700 font-bold mb-2">今日の作業内容:</label>
+            <textarea id="tasks" name="tasks" rows="5" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="・〇〇機能のバグ修正
+・DBテーブルの設計">{{ report.tasks }}</textarea>
+        </div>
+        
+        <div class="mb-4">
+            <label for="progress" class="block text-gray-700 font-bold mb-2">進捗状況:</label>
+            <textarea id="progress" name="progress" rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="・〇〇機能のバグ修正：完了
+・DBテーブルの設計：進行中">{{ report.progress }}</textarea>
+        </div>
+        
+        <div class="mb-4">
+            <label for="challenges" class="block text-gray-700 font-bold mb-2">課題・対応中:</label>
+            <textarea id="challenges" name="challenges" rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="・〇〇APIで認証エラーが発生中
+・解決のため〇〇のドキュメントを調査中">{{ report.challenges }}</textarea>
+        </div>
+
+        <div class="mb-6">
+            <label for="next_plan" class="block text-gray-700 font-bold mb-2">明日以降の予定:</label>
+            <textarea id="next_plan" name="next_plan" rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="・〇〇機能の実装（着手）
+・〇〇の調査を継続">{{ report.next_plan }}</textarea>
+        </div>
+
+        <div class="mb-6">
+            <label for="memo" class="block text-gray-700 font-bold mb-2">所感・メモ:</label>
+            <textarea id="memo" name="memo" rows="5" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ report.memo }}</textarea>
+        </div>
+
+        <div class="flex items-center justify-between">
+            <input type="submit" value="日報を更新" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            <a href="{{ url_for('index') }}" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">キャンセル</a>
+        </div>
+    </form>
+{% endblock %}
